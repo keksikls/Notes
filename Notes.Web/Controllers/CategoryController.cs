@@ -18,38 +18,98 @@ namespace Notes.Web.Controllers
             List<Category> ObjCategories = _unitOfWork.Category.GetAll().ToList();
             return View(ObjCategories);
         }
-
+        //get create
         public IActionResult Create()
         {
             return View();
         }
 
+        //пост метод create
         [HttpPost]
-        public IActionResult CreatePost(Category obj)
+        [ValidateAntiForgeryToken]
+        public IActionResult Create(Category obj)
         {
+            if (obj == null) 
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                _unitOfWork.Category.Add(obj);
+                _unitOfWork.Save();
+                TempData["success"] = "Категория создана";
+                return RedirectToAction("Index");
+            }
+
+            return View(obj);
+        }
+        //для view edit по id get
+        public IActionResult Edit(long? id)
+        {
+            if (id == null || id == 0)
+            {
+                return NotFound();
+            }
+
+            Category? categoryFromDb = _unitOfWork.Category.Get(u => u.Id == id);
+
+            if (categoryFromDb == null)
+            {
+                return NotFound();
+            }
+
+            return View(categoryFromDb);
+        }
+
+        //пост метод для редактирования 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Edit(Category obj)
+        {
+            if (ModelState.IsValid)
+            {
+                _unitOfWork.Category.Update(obj);
+                _unitOfWork.Save();
+                TempData["success"] = "Категория обновлена";
+                return RedirectToAction("Index");
+            }
+
             return View(obj);
         }
 
-        public IActionResult Edit()
+        public IActionResult Delete(long? id)
         {
-            return View();
+            if (id == null || id == 0)
+            {
+                return NotFound();
+            }
+
+            Category? categoryFromDb = _unitOfWork.Category.Get(u => u.Id == id);
+
+            if (categoryFromDb == null)
+            {
+                return NotFound();
+            }
+
+            return View(categoryFromDb);
         }
 
-        [HttpPost]
-        public IActionResult EditPost(Category obj)
+        [HttpPost, ActionName("Delete")]
+        public IActionResult DeletePost(long? id)
         {
-            return View(obj);
-        }
+            Category? obj = _unitOfWork.Category.Get(u => u.Id == id);
 
-        public IActionResult Delete(int? id)
-        {
-            return View();
-        }
+            if (obj == null)
+            {
+                return NotFound();
+            }
 
-        [HttpPost]
-        public IActionResult DeletePost(int? id)
-        {
-            return View();
+            _unitOfWork.Category.Remove(obj);
+            _unitOfWork.Save();
+            TempData["success"] = "Категория удалена";
+            return RedirectToAction("Index");
+
         }
     }
 }

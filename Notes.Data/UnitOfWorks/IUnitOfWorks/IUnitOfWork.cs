@@ -10,7 +10,8 @@ namespace Notes.Data.UnitOfWorks.IUnitOfWorks
     public interface IUnitOfWork
     {
         ICategoryRepository Category { get; }
-        //*todo сделать product логику для заметок
+        
+        INotesProductRepository NotesProduct { get; }
 
         void Save();
 

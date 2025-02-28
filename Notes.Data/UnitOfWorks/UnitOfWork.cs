@@ -15,14 +15,15 @@ namespace Notes.Data.UnitOfWorks
         private readonly ApplicationDbContext _context;
 
         public ICategoryRepository Category { get; private set; }
-        //*todo сделать product логику для заметок
+        
+        public INotesProductRepository NotesProduct { get; private set; }
 
         public UnitOfWork(ApplicationDbContext context)
         {
             _context = context;
 
             Category = new CategoryRepository(_context);
-            //*todo сделать product логику для заметок
+            NotesProduct = new NotesProductRepository(_context);
         }
 
         public void Save()

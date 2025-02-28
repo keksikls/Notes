@@ -16,7 +16,7 @@ namespace Notes.Data.AppDbContext
         }
 
         public DbSet<Category> Categories { get; set; }
-
+        public DbSet<NotesProduct> NotesProducts { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
