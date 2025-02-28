@@ -10,6 +10,10 @@ namespace Notes.Web.Controllers
             return View();
         }
 
+        public IActionResult GetLink() 
+        {
+            return Redirect("https://github.com/keksikls");
+        }
 
     }
 }

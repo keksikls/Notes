@@ -16,5 +16,7 @@ namespace Notes.Models.Entity
         [DisplayName("Display Order")]
         [Range(1, 20, ErrorMessage = " Вы вышли за границу")]
         public int DisplayOrder { get; set; }
+
+        public List<NotesProduct>? NotesProducts { get; set; }
     }
 }
