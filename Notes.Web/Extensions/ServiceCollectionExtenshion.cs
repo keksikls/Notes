@@ -2,6 +2,9 @@
 using Notes.Data.AppDbContext;
 using Notes.Data.UnitOfWorks;
 using Notes.Data.UnitOfWorks.IUnitOfWorks;
+using Serilog;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Notes.Web.Extensions
 {
@@ -20,6 +23,22 @@ namespace Notes.Web.Extensions
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
             return builder;
+        }
+
+        public static IServiceCollection AddCustomLogging(this IServiceCollection services) 
+        {
+            Log.Logger = new LoggerConfiguration()
+                .WriteTo.Console()
+                .WriteTo.File("logs/app.log", rollingInterval: RollingInterval.Day)
+                .CreateLogger();
+
+            services.AddLogging(loggingBuilder =>
+            {
+                loggingBuilder.ClearProviders();
+                loggingBuilder.AddSerilog();
+            });
+
+            return services;
         }
     }
 }

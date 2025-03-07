@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.12.35707.178 d17.12
+VisualStudioVersion = 17.12.35707.178
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Notes.Web", "Notes.Web\Notes.Web.csproj", "{949D2017-98A3-42A8-BC5E-82E69DC48F7D}"
 EndProject
@@ -9,7 +9,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Notes.Data", "Notes.Data\No
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Notes.Models", "Notes.Models\Notes.Models.csproj", "{108C64A0-EBC4-4E17-8A00-1909909CB31D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Notes.Tests", "Notes.Tests\Notes.Tests.csproj", "{131E0414-36DB-4D61-BBE0-57FBBDC04AAE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Notes.UnitTesting", "Notes.UnitTesting\Notes.UnitTesting.csproj", "{05AE5B7F-2301-43D1-8691-FF4EFBA9E02B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Notes.TesingController", "Notes.TesingController\Notes.TesingController.csproj", "{74C7E3C8-A540-4929-9D41-8DF2E2D58774}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,10 +31,14 @@ Global
 		{108C64A0-EBC4-4E17-8A00-1909909CB31D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{108C64A0-EBC4-4E17-8A00-1909909CB31D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{108C64A0-EBC4-4E17-8A00-1909909CB31D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{131E0414-36DB-4D61-BBE0-57FBBDC04AAE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{131E0414-36DB-4D61-BBE0-57FBBDC04AAE}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{131E0414-36DB-4D61-BBE0-57FBBDC04AAE}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{131E0414-36DB-4D61-BBE0-57FBBDC04AAE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{05AE5B7F-2301-43D1-8691-FF4EFBA9E02B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{05AE5B7F-2301-43D1-8691-FF4EFBA9E02B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{05AE5B7F-2301-43D1-8691-FF4EFBA9E02B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{05AE5B7F-2301-43D1-8691-FF4EFBA9E02B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{74C7E3C8-A540-4929-9D41-8DF2E2D58774}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{74C7E3C8-A540-4929-9D41-8DF2E2D58774}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{74C7E3C8-A540-4929-9D41-8DF2E2D58774}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{74C7E3C8-A540-4929-9D41-8DF2E2D58774}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

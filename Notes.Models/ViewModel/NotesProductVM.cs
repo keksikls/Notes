@@ -13,8 +13,9 @@ namespace Notes.Models.ViewModel
     public class NotesProductVM
     {
         public NotesProduct? NotesProduct { get; set; }
+
         [Required]
         [ValidateNever]
-        public IEnumerable<SelectListItem> CategoryList { get; set; }
+        public IEnumerable<SelectListItem>? CategoryList { get; set; }
     }
 }
