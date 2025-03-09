@@ -16,19 +16,33 @@
             <div class="row">
                 <div class="col-10">
                     <div class="border p-3">
-                        @*    <div asp-validation-summary="ModelOnly"></div>   *@
                         <div class="form-floating py-2 col-12">
                             <input asp-for="NotesProduct.Title" class="form-control border-0 shadow" />
                             <label asp-for="NotesProduct.Title" class="ms-2"></label>
                             <span asp-validation-for="NotesProduct.Title" class="text-danger"></span>
                         </div>
                         <div class="py-2 col-12">
-                            <label asp-for="NotesProduct.Description" class="ms-2 text-muted"></label>
+                            <label asp-for="NotesProduct.Description" class="ms-2"></label>
                             <textarea asp-for="NotesProduct.Description" class="form-control border-0 shadow"></textarea>
+                            <span asp-validation-for="NotesProduct.Description" class="text-danger"></span>
+                        </div>
+                        <div class="py-2 col-12">
+                            @if (Model.NotesProduct.Id != 0)
+                            {
+                                <label asp-for="NotesProduct.UpdatedDate" disabled class="ms-2"></label>
+                                <input asp-for="NotesProduct.UpdatedDate" disabled class="form-control border-0 shadow" />
+                                <span asp-validation-for="NotesProduct.UpdatedDate" class="text-danger"></span>
+                            }
+                            else 
+                            {
+                                <label asp-for="NotesProduct.CreatedDate" disabled class="ms-2"></label>
+                                <input asp-for="NotesProduct.CreatedDate" disabled class="form-control border-0 shadow" />
+                                <span asp-validation-for="NotesProduct.CreatedDate" class="text-danger"></span>
+                            }
                         </div>
                         <div class="form-floating py-2 col-12">
                             <select asp-for="@Model.NotesProduct.CategoryId" asp-items="@Model.CategoryList" class="form-select border-0 shadow">
-                                <option disabled selected>--Selcet Category--</option>
+                                <option disabled selected>--Selcet DifCategory--</option>
                             </select>
                             <label asp-for="NotesProduct.CategoryId" class="ms-2"></label>
                             <span asp-validation-for="NotesProduct.CategoryId" class="text-danger"></span>
@@ -58,7 +72,7 @@
 </div>
 
 
-@section Scripts
+@* @section Scripts
 {
     <script>
         tinymce.init({
@@ -80,4 +94,4 @@
             ai_request: (request, respondWith) => respondWith.string(() => Promise.reject('See docs to implement AI Assistant')),
         });
     </script>
-}
+} *@

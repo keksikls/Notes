@@ -12,7 +12,7 @@ namespace Notes.Models.Entity
     {
         [Required]
         [MaxLength(15, ErrorMessage = "Вы вышли за границу")]
-        public string Name { get; set; }
+        public string? Name { get; set; }
         [DisplayName("Display Order")]
         [Range(1, 20, ErrorMessage = " Вы вышли за границу")]
         public int DisplayOrder { get; set; }

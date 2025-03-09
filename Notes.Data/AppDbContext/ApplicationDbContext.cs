@@ -30,5 +30,22 @@ namespace Notes.Data.AppDbContext
                 );
 
         }
+
+        public override int SaveChanges()
+        {
+            AutoUpdateTime();
+            return base.SaveChanges();
+        }
+
+        private void AutoUpdateTime() 
+        {
+            var entries = ChangeTracker.Entries()
+                .Where(u => u.State == EntityState.Modified && u.Entity is NotesProduct);
+
+            foreach (var entry in entries)
+            {
+                ((NotesProduct)entry.Entity).UpdatedDate = DateTime.UtcNow;
+            }
+        }
     }
 }
