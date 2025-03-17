@@ -1,0 +1,54 @@
+﻿@model List<NotesProduct>
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+<body>
+    <header class="bg-primary text-white text-center py-5">
+        <h1>Добро пожаловать в NoteApp</h1>
+        <p>Простой и удобный сервис для ведения заметок</p>
+        <a asp-area="Identity" asp-page="/Account/Register" class="btn btn-light btn-lg">Создать аккаунт</a>
+    </header>
+
+    <section class="container my-5 text-center">
+        <h2>Преимущества</h2>
+        <div class="row mt-4">
+            <div class="col-md-4">
+                <h4>Простота</h4>
+                <p>Интуитивно понятный интерфейс для удобного ведения заметок.</p>
+            </div>
+            <div class="col-md-4">
+                <h4>Безопасность</h4>
+                <p>Ваши заметки защищены с использованием современных технологий.</p>
+            </div>
+            <div class="col-md-4">
+                <h4>Доступность</h4>
+                <p>Доступ с любого устройства в любое время.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="container my-5">
+        <h2 class="text-center">Примеры заметок</h2>
+        <div class="row mt-4">
+            @foreach (var note in Model)
+            {
+                <div class="col-md-4">
+                    <div class="card shadow-sm">
+                        <div class="card-body">
+                            <h5 class="card-title">@note.Title</h5>
+                            <p class="card-text">@note.Description</p>
+                            <a asp-controller="NotesProduct" asp-action="Upsert" asp-route-id="@note.Id" class="btn btn-primary">Подробнее</a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </section>
+</body>
+</html>

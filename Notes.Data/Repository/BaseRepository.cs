@@ -19,7 +19,6 @@ namespace Notes.Data.Repository
         {
             _context = context;
 
-            //*todo прочить/посмотреть 
             this.dbSet = _context.Set<T>();
         }
         public void Add(T Entity)

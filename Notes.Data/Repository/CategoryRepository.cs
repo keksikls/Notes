@@ -22,5 +22,6 @@ namespace Notes.Data.Repository
         {
             _context.Categories.Update(obj);
         }
+
     }
 }

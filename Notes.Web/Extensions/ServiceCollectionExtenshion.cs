@@ -5,6 +5,10 @@ using Notes.Data.UnitOfWorks.IUnitOfWorks;
 using Serilog;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Options;
+using Microsoft.AspNetCore.Identity.UI.Services;
+using IdentityService.AuthEmail;
 
 namespace Notes.Web.Extensions
 {
@@ -21,10 +25,11 @@ namespace Notes.Web.Extensions
         public static WebApplicationBuilder AddApplicationServices(this WebApplicationBuilder builder)
         {
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+            builder.Services.AddSingleton<IEmailSender, EmailSender>();
 
             return builder;
         }
-
+        //logs
         public static IServiceCollection AddCustomLogging(this IServiceCollection services) 
         {
             Log.Logger = new LoggerConfiguration()
@@ -36,6 +41,26 @@ namespace Notes.Web.Extensions
             {
                 loggingBuilder.ClearProviders();
                 loggingBuilder.AddSerilog();
+            });
+
+            return services;
+        }
+
+        //настройка реги
+        public static IServiceCollection AdIdentity(this IServiceCollection services) 
+        {
+            services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders();
+
+            return services;
+        }
+
+        public static IServiceCollection AddConfigureCoockie(this IServiceCollection services) 
+        {
+            services.ConfigureApplicationCookie(opt => 
+            {
+                opt.LoginPath = $"/Identity/Account/Login";
+                opt.LogoutPath = $"/Identity/Account/Logout";
+                opt.AccessDeniedPath = $"/Identity/Account/AccessDenied";
             });
 
             return services;
