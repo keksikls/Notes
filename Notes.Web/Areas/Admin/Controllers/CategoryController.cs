@@ -1,9 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Notes.Data.UnitOfWorks.IUnitOfWorks;
 using Notes.Models.Entity;
+using Notes.Models.RoleIdConst;
 
-namespace Notes.Web.Controllers
+namespace Notes.Web.Areas.Admin.Controllers
 {
+    [Area("Admin")]
+    [Authorize(Roles = ConstRole.Admin)]
     public class CategoryController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
@@ -36,7 +40,7 @@ namespace Notes.Web.Controllers
         public IActionResult Create(Category obj)
         {
             _logger.LogInformation($"Method CreatePost / check {obj} ");
-            if (obj == null) 
+            if (obj == null)
             {
                 return NotFound();
             }
@@ -57,7 +61,9 @@ namespace Notes.Web.Controllers
 
             return View(obj);
         }
+
         //для view edit по id get
+        [HttpGet]
         public IActionResult Edit(long? id)
         {
             _logger.LogInformation($"Method CreatePost / проверка условия ");

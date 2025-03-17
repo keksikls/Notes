@@ -3,8 +3,9 @@ using Microsoft.Extensions.Logging;
 using Notes.Data.UnitOfWorks.IUnitOfWorks;
 using Notes.Models.Entity;
 
-namespace Notes.Web.Controllers
+namespace Notes.Web.Areas.User.Controllers
 {
+    [Area("User")]
     public class HomeController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
@@ -31,26 +32,13 @@ namespace Notes.Web.Controllers
             return View(notesProduct);
         }
         [HttpGet]
-        public IActionResult Details([FromQuery(Name ="productId")]long id) 
+        public IActionResult Details([FromQuery(Name = "productId")] long id)
         {
             _logger.LogInformation("Method DeteilsGet / getForId start");
-            NotesProduct notesProduct = _unitOfWork.NotesProduct.Get(u=>u.Id == id, includeProperties: "Category");
+            NotesProduct notesProduct = _unitOfWork.NotesProduct.Get(u => u.Id == id, includeProperties: "Category");
             _logger.LogInformation("Method DeteilsGet / getForId finish");
 
             return View(notesProduct);
-        }
-
-        public IActionResult RedirectToNotes() 
-        {
-            _logger.LogInformation("Method RedirectToNotes / start");
-            return RedirectToAction("Index", "NotesProduct");
-            
-        }
-
-        public IActionResult RedirectToUpsert()
-        {
-            _logger.LogInformation("Method RedirectToUpsert / finish");
-            return RedirectToAction("Upsert", "NotesProduct");
         }
     }
 }

@@ -1,12 +1,16 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Notes.Data.UnitOfWorks.IUnitOfWorks;
 using Notes.Models.Entity;
+using Notes.Models.RoleIdConst;
 using Notes.Models.ViewModel;
 using Serilog;
 
-namespace Notes.Web.Controllers
+namespace Notes.Web.Areas.Admin.Controllers
 {
+    [Area("Admin")]
+    [Authorize(Roles = ConstRole.Admin)]
     public class NotesProductController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
@@ -26,11 +30,11 @@ namespace Notes.Web.Controllers
             _logger.LogInformation("Method Index / Передал NotesProduct в представление ");
 
             return View(objProductList);
- 
+
         }
         //get для view delte
         [HttpGet]
-        public IActionResult Delete(long? id) 
+        public IActionResult Delete(long? id)
         {
             _logger.LogInformation("Method Delete / Проверка условия");
             if (id == null || id == 0)
@@ -56,7 +60,7 @@ namespace Notes.Web.Controllers
         //post метод для delete 
         [HttpPost]
         [ActionName("Delete")]
-        public IActionResult DeletePost(long? id) 
+        public IActionResult DeletePost(long? id)
         {
             _logger.LogInformation($"Method DeletePost / try Get {id} process");
             NotesProduct? obj = _unitOfWork.NotesProduct.Get(u => u.Id == id);
@@ -78,7 +82,7 @@ namespace Notes.Web.Controllers
             return RedirectToAction("Index");
         }
         //get для метода upsert
-        public IActionResult Upsert(long? id) 
+        public IActionResult Upsert(long? id)
         {
             _logger.LogInformation($"Method Upsert / attempt get productVM procces");
             NotesProductVM productVM = new()
@@ -111,14 +115,14 @@ namespace Notes.Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult Upsert(NotesProductVM notesProductVM) 
+        public IActionResult Upsert(NotesProductVM notesProductVM)
         {
             _logger.LogInformation($"Method UpsertPost / проверка условия");
             if (notesProductVM == null)
             {
                 return NotFound();
             }
-            else if (!ModelState.IsValid) 
+            else if (!ModelState.IsValid)
             {
                 return BadRequest();
             }
@@ -146,7 +150,7 @@ namespace Notes.Web.Controllers
 
                 return RedirectToAction("Index");
             }
-            else 
+            else
             {
                 _logger.LogInformation($"Method UpsertPost / !ModelState.IsValid create new categoryList proccess ");
                 notesProductVM.CategoryList = _unitOfWork.Category.GetAll().Select(u => new SelectListItem
