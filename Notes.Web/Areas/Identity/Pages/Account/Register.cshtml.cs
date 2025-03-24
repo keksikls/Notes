@@ -103,13 +103,13 @@ namespace Notes.Web.Areas.Identity.Pages.Account
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
 
-            public string? Role { get; set; }
+            public string Role { get; set; }
 
-            public string? Name { get; set; }
-            public string? MidleName { get; set; }
-            public string? LastName { get; set; }
+            public string Name { get; set; }
+            public string MidleName { get; set; }
+            public string LastName { get; set; }
 
-            public string? Phone { get; set; }
+            public string Phone { get; set; }
 
             public DateTime? BirthDate { get; set; }
         }

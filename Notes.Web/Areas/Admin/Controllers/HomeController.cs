@@ -1,11 +1,14 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Notes.Data.UnitOfWorks.IUnitOfWorks;
 using Notes.Models.Entity;
+using Notes.Models.RoleIdConst;
 
-namespace Notes.Web.Areas.User.Controllers
+namespace Notes.Web.Areas.Admin.Controllers
 {
-    [Area("User")]
+    [Area("Admin")]
+    [Authorize(Roles = ConstRole.Admin)]
     public class HomeController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
@@ -19,24 +22,20 @@ namespace Notes.Web.Areas.User.Controllers
         public IActionResult Index()
         {
             _logger.LogInformation("Method Index / getall start");
+            //todo как блядь инклудить эту поебень в репозиторий
+
             List<NotesProduct> notesProduct = _unitOfWork.NotesProduct
                 .GetAll(includeProperties: "Category")
                 .ToList();
 
-            foreach (var item in notesProduct)
-            {
-                Console.WriteLine($"Product: {item.Title}, Category: {item.Category?.Name}");
-            }
-            _logger.LogInformation("Method Index / getall finish");
-
             return View(notesProduct);
         }
+
         [HttpGet]
         public IActionResult Details([FromQuery(Name = "productId")] long id)
         {
             _logger.LogInformation("Method DeteilsGet / getForId start");
-            NotesProduct notesProduct = _unitOfWork.NotesProduct.Get(u => u.Id == id, includeProperties: "Category");
-            _logger.LogInformation("Method DeteilsGet / getForId finish");
+            NotesProduct notesProduct = _unitOfWork.homeRepository.GetForDetails(id);
 
             return View(notesProduct);
         }

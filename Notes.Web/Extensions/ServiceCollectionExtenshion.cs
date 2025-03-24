@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using IdentityService.AuthEmail;
+using Microsoft.OpenApi.Models;
 
 namespace Notes.Web.Extensions
 {
@@ -21,7 +22,7 @@ namespace Notes.Web.Extensions
 
             return builder;
         }
-        //регистрируем в di время жизни для обьекта unitofwork
+        //регистрируем в di время жизни для обьекта 
         public static WebApplicationBuilder AddApplicationServices(this WebApplicationBuilder builder)
         {
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
@@ -64,6 +65,12 @@ namespace Notes.Web.Extensions
             });
 
             return services;
+        }
+
+        public static WebApplicationBuilder AddSwagger(this WebApplicationBuilder builder)
+        {
+            builder.Services.AddSwaggerGen();
+            return builder;
         }
     }
 }

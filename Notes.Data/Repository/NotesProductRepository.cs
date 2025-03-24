@@ -18,6 +18,11 @@ namespace Notes.Data.Repository
             _context = context;
         }
 
+        public List<NotesProduct> GetAllNotes()
+        {
+           return _context.NotesProducts.ToList();
+        }
+
         void INotesProductRepository.Update(NotesProduct obj)
         {
             _context.NotesProducts.Update(obj);
