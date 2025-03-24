@@ -9,6 +9,7 @@ using Notes.Data.AppDbContext;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddEndpointsApiExplorer();
 builder.Services.AdIdentity();
 builder.Services.AddRazorPages();
 builder.Services.AddConfigureCoockie();
@@ -16,6 +17,7 @@ builder.Services.AddCustomLogging();
 builder.Services.AddControllersWithViews(); 
 builder.Services.AddEndpointsApiExplorer();
 
+builder.AddSwagger();
 builder.AddData();
 builder.AddApplicationServices();
 
@@ -29,6 +31,8 @@ app.UseRouting();
 
 app.UseAuthentication();
 app.UseAuthorization();
+app.UseSwagger();
+app.UseSwaggerUI();
 
 app.UseSerilogRequestLogging();
 app.MapRazorPages();

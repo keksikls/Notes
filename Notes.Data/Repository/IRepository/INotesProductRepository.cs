@@ -10,5 +10,6 @@ namespace Notes.Data.Repository.IRepository
     public interface INotesProductRepository : IBaseRepository<NotesProduct>
     {
         void Update(NotesProduct obj);
+        List<NotesProduct> GetAllNotes();
     }
 }

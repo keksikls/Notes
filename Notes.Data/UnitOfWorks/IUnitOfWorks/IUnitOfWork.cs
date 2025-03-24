@@ -12,6 +12,7 @@ namespace Notes.Data.UnitOfWorks.IUnitOfWorks
         ICategoryRepository Category { get; }
         
         INotesProductRepository NotesProduct { get; }
+        IHomeRepository homeRepository { get; }
 
         void Save();
 

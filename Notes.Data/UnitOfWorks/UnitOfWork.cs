@@ -18,12 +18,15 @@ namespace Notes.Data.UnitOfWorks
         
         public INotesProductRepository NotesProduct { get; private set; }
 
+        public IHomeRepository homeRepository { get; private set; }
+
         public UnitOfWork(ApplicationDbContext context)
         {
             _context = context;
 
             Category = new CategoryRepository(_context);
             NotesProduct = new NotesProductRepository(_context);
+            homeRepository = new HomeRepository(_context);
         }
 
         public void Save()

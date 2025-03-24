@@ -22,111 +22,86 @@ namespace Notes.Web.Areas.Admin.Controllers
         public IActionResult Index()
         {
             _logger.LogInformation($"Method Index / getall start ");
-            List<Category> ObjCategories = _unitOfWork.Category.GetAll().ToList();
-            _logger.LogInformation($"Method Index / getall finish ");
+            List<Category> ObjCategories = _unitOfWork.Category.GetAllCategories();
 
             return View(ObjCategories);
         }
-        //get create
+
+        [HttpGet]
         public IActionResult Create()
         {
             _logger.LogInformation($"Method CreateGet / return view ");
             return View();
         }
 
-        //пост метод create
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Create(Category obj)
         {
-            _logger.LogInformation($"Method CreatePost / check {obj} ");
             if (obj == null)
             {
                 return NotFound();
             }
-            _logger.LogInformation($"Method CreatePost / check {obj} finish ");
 
-            _logger.LogInformation($"Method CreatePost / Проверка на валидность модели ");
+            _logger.LogInformation($"Method CreatePost / add {obj} + savechanges {obj} ");
 
             if (ModelState.IsValid)
             {
-                _logger.LogInformation($"Method CreatePost / add {obj} + savechanges {obj} ");
-                _unitOfWork.Category.Add(obj);
-                _unitOfWork.Save();
-                _logger.LogInformation($"Method CreatePost / save {obj} finish ");
-                TempData["success"] = "Категория создана";
+                _unitOfWork.Category.AddCategory(obj);
                 return RedirectToAction("Index");
             }
-            _logger.LogInformation($"Method CreatePost / Проверка на валидность модели finish ");
 
             return View(obj);
         }
 
-        //для view edit по id get
         [HttpGet]
         public IActionResult Edit(long? id)
         {
-            _logger.LogInformation($"Method CreatePost / проверка условия ");
             if (id == null || id == 0)
             {
                 return NotFound();
             }
-            _logger.LogInformation($"Method CreatePost / Проверка успешна ");
 
             _logger.LogInformation($"Method CreatePost / get{id} for category proccess ");
-            Category? categoryFromDb = _unitOfWork.Category.Get(u => u.Id == id);
-            _logger.LogInformation($"Method CreatePost / get{id} for category finish ");
+            Category? categoryFromDb = _unitOfWork.Category.EditCategory(id);
 
-            _logger.LogInformation($"Method CreatePost / проверка условия ");
             if (categoryFromDb == null)
             {
                 return NotFound();
             }
-            _logger.LogInformation($"Method CreatePost / проверка успешна ");
 
             return View(categoryFromDb);
         }
 
-        //пост метод для редактирования 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Edit(Category obj)
         {
-            _logger.LogInformation($"Method EditGet / проверка условия ");
+            _logger.LogInformation($"Method CreatePost / update {obj} + save {obj} ");
             if (ModelState.IsValid)
             {
-                _logger.LogInformation($"Method CreatePost / update {obj} + save {obj} ");
-                _unitOfWork.Category.Update(obj);
-                _unitOfWork.Save();
-                _logger.LogInformation($"Method CreatePost / update {obj} + save {obj} finish");
-                TempData["success"] = "Категория обновлена";
-
+                _unitOfWork.Category.UpdateCategry(obj);
                 return RedirectToAction("Index");
             }
-            _logger.LogInformation($"Method EditGet / проверка успешна ");
 
             return View(obj);
         }
 
+        [HttpGet]
         public IActionResult Delete(long? id)
         {
-            _logger.LogInformation($"Method DeleteGet / проверка условия ");
             if (id == null || id == 0)
             {
                 return NotFound();
             }
-            _logger.LogInformation($"Method DeleteGet / проверка успешна ");
 
             _logger.LogInformation($"Method DeleteGet / get{id} for category proccess ");
-            Category? categoryFromDb = _unitOfWork.Category.Get(u => u.Id == id);
-            _logger.LogInformation($"Method DeleteGet / get{id} for category finish ");
+            Category? categoryFromDb = _unitOfWork.Category.EditCategory(id);
 
-            _logger.LogInformation($"Method DeleteGet / проверка условия ");
             if (categoryFromDb == null)
             {
                 return NotFound();
             }
-            _logger.LogInformation($"Method DeleteGet / проверка успешна ");
 
             return View(categoryFromDb);
         }
@@ -134,23 +109,20 @@ namespace Notes.Web.Areas.Admin.Controllers
         [HttpPost, ActionName("Delete")]
         public IActionResult DeletePost(long? id)
         {
-            _logger.LogInformation($"Method DeletePost / get {id} for obj process");
-            Category? obj = _unitOfWork.Category.Get(u => u.Id == id);
-            _logger.LogInformation($"Method DeletePost / get {id} for obj Finish");
+            if (id == 0 || id == null)
+            {
+                return NotFound();
+            }
 
-            _logger.LogInformation($"Method DeletePost / проверка условия");
+            _logger.LogInformation($"Method DeletePost / get {id} for obj process");
+            Category? obj = _unitOfWork.Category.EditCategory(id);
+
             if (obj == null)
             {
                 return NotFound();
             }
-            _logger.LogInformation($"Method DeletePost / проверка успешна");
 
-
-            _logger.LogInformation($"Method DeletePost / remove {obj} + savechanges");
-            _unitOfWork.Category.Remove(obj);
-            _unitOfWork.Save();
-            _logger.LogInformation($"Method DeletePost / remove {obj} + savechanges finish");
-            TempData["success"] = "Категория удалена";
+            _unitOfWork.Category.DeleteCategory(obj);
 
             return RedirectToAction("Index");
         }
