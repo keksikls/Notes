@@ -30,7 +30,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\IdentityService\IdentityService.csproj" />
+    <ProjectReference Include="..\IdentityService\Service.csproj" />
     <ProjectReference Include="..\Notes.Data\Notes.Data.csproj" />
     <ProjectReference Include="..\Notes.Models\Notes.Models.csproj" />
   </ItemGroup>

@@ -1,4 +1,5 @@
 ﻿using Notes.Models.Entity;
+using Notes.Models.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,5 +12,10 @@ namespace Notes.Data.Repository.IRepository
     {
         void Update(NotesProduct obj);
         List<NotesProduct> GetAllNotes();
+        NotesProduct? GetProduct(long? id);
+        void DeleteNotes(NotesProduct obj);
+        void AddProduct(NotesProductVM notesProductVM);
+        void UpdateProduct(NotesProductVM notesProductVM);
+
     }
 }

@@ -6,6 +6,7 @@ using Notes.Models.Entity;
 using Notes.Models.RoleIdConst;
 using Notes.Models.ViewModel;
 using Serilog;
+using Service.CategoryServices.ICategoryServices;
 
 namespace Notes.Web.Areas.Admin.Controllers
 {
@@ -15,11 +16,13 @@ namespace Notes.Web.Areas.Admin.Controllers
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly ILogger<NotesProductController> _logger;
+        private readonly ICategoryService _categoryService;
 
-        public NotesProductController(IUnitOfWork unitOfWork, ILogger<NotesProductController> logger)
+        public NotesProductController(IUnitOfWork unitOfWork, ILogger<NotesProductController> logger, ICategoryService categoryService)
         {
             _unitOfWork = unitOfWork;
             _logger = logger;
+            _categoryService = categoryService;
         }
         public IActionResult Index()
         {
@@ -41,7 +44,7 @@ namespace Notes.Web.Areas.Admin.Controllers
             }
 
             _logger.LogInformation($"Method Delete / try Get {id} process");
-            NotesProduct? productFromDb = _unitOfWork.NotesProduct.Get(u => u.Id == id);
+            NotesProduct? productFromDb = _unitOfWork.NotesProduct.GetProduct(id);
 
             if (productFromDb == null)
             {
@@ -57,16 +60,14 @@ namespace Notes.Web.Areas.Admin.Controllers
         public IActionResult DeletePost(long? id)
         {
             _logger.LogInformation($"Method DeletePost / try Get {id} process");
-            NotesProduct? obj = _unitOfWork.NotesProduct.Get(u => u.Id == id);
+            NotesProduct? obj = _unitOfWork.NotesProduct.GetProduct(id);
 
             if (obj == null || id == 0)
             {
                 return NotFound();
             }
 
-            _unitOfWork.NotesProduct.Remove(obj);
-            _unitOfWork.Save();
-            TempData["success"] = "Product удален";
+            _unitOfWork.NotesProduct.DeleteNotes(obj);
 
             return RedirectToAction("Index");
         }
@@ -77,12 +78,7 @@ namespace Notes.Web.Areas.Admin.Controllers
             _logger.LogInformation($"Method Upsert / attempt get productVM procces");
             NotesProductVM productVM = new()
             {
-
-                CategoryList = _unitOfWork.Category.GetAll().Select(u => new SelectListItem
-                {
-                    Text = u.Name,
-                    Value = u.Id.ToString()
-                }),
+                CategoryList = _categoryService.GetCategorySelectList(),
                 NotesProduct = new NotesProduct()
             };
 
@@ -94,7 +90,7 @@ namespace Notes.Web.Areas.Admin.Controllers
             else
             {
                 //update
-                productVM.NotesProduct = _unitOfWork.NotesProduct.Get(u => u.Id == id);
+                productVM.NotesProduct = _unitOfWork.NotesProduct.GetProduct(id);
                 return View(productVM);
             }
         }
@@ -106,37 +102,25 @@ namespace Notes.Web.Areas.Admin.Controllers
             {
                 return NotFound();
             }
-            else if (!ModelState.IsValid)
+
+            if (!ModelState.IsValid)
             {
-                return BadRequest();
+                notesProductVM.CategoryList = _categoryService.GetCategorySelectList();
+                return View(notesProductVM);
             }
 
-            if (ModelState.IsValid)
+            _logger.LogInformation("Method Upsert / start");
+
+            if (notesProductVM.NotesProduct.Id == 0)
             {
-                if (notesProductVM.NotesProduct.Id == 0)
-                {
-                    _unitOfWork.NotesProduct.Add(notesProductVM.NotesProduct);
-                }
-                else
-                {
-                    _unitOfWork.NotesProduct.Update(notesProductVM.NotesProduct);
-                }
-
-                _unitOfWork.Save();
-                TempData["success"] = "NotesProduct создан";
-
-                return RedirectToAction("Index");
+                _unitOfWork.NotesProduct.AddProduct(notesProductVM); 
             }
             else
             {
-                _logger.LogInformation($"Method UpsertPost / !ModelState.IsValid create new categoryList proccess ");
-                notesProductVM.CategoryList = _unitOfWork.Category.GetAll().Select(u => new SelectListItem
-                {
-                    Text = u.Name,
-                    Value = u.Id.ToString()
-                });
-                return View(notesProductVM);
+                _unitOfWork.NotesProduct.UpdateProduct(notesProductVM);
             }
+
+            return RedirectToAction("Index");
         }
     }
 }

@@ -1,4 +1,6 @@
-﻿using Notes.Data.AppDbContext;
+﻿using Notes.Data.ApiRepository;
+using Notes.Data.ApiRepository.IApiRepository;
+using Notes.Data.AppDbContext;
 using Notes.Data.Repository;
 using Notes.Data.Repository.IRepository;
 using Notes.Data.UnitOfWorks.IUnitOfWorks;
@@ -18,7 +20,13 @@ namespace Notes.Data.UnitOfWorks
         
         public INotesProductRepository NotesProduct { get; private set; }
 
-        public IHomeRepository homeRepository { get; private set; }
+        public IHomeRepository homePage { get; private set; }
+
+        public ICategoryApiRepository CategoryApi { get; private set; }
+
+        public INotesApiRepository NotesApi { get; private set; }
+
+        public IRoleRepository RoleApi { get; private set; }
 
         public UnitOfWork(ApplicationDbContext context)
         {
@@ -26,7 +34,10 @@ namespace Notes.Data.UnitOfWorks
 
             Category = new CategoryRepository(_context);
             NotesProduct = new NotesProductRepository(_context);
-            homeRepository = new HomeRepository(_context);
+            homePage = new HomeRepository(_context);
+            CategoryApi = new CategoryApiRepository(_context);
+            NotesApi = new NotesApiRepository(_context);
+            RoleApi = new RoleRepository(_context);
         }
 
         public void Save()
