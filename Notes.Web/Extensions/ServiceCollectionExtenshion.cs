@@ -10,6 +10,8 @@ using Microsoft.Extensions.Options;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using IdentityService.AuthEmail;
 using Microsoft.OpenApi.Models;
+using Service.CategoryServices.ICategoryServices;
+using Service.CategoryServices;
 
 namespace Notes.Web.Extensions
 {
@@ -27,6 +29,7 @@ namespace Notes.Web.Extensions
         {
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
             builder.Services.AddSingleton<IEmailSender, EmailSender>();
+            builder.Services.AddScoped<ICategoryService, CategoryService>();
 
             return builder;
         }

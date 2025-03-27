@@ -13,7 +13,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Notes.UnitTesting", "Notes.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Notes.TesingController", "Notes.TesingController\Notes.TesingController.csproj", "{74C7E3C8-A540-4929-9D41-8DF2E2D58774}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IdentityService", "IdentityService\IdentityService.csproj", "{3B58D4D8-7AE3-4954-9BAF-99D5D495FD2C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Service", "IdentityService\Service.csproj", "{3B58D4D8-7AE3-4954-9BAF-99D5D495FD2C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

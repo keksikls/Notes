@@ -20,19 +20,11 @@ namespace Notes.Data.Repository
             _context = context;
         }
 
-        public List<NotesProduct> GetAllNotes(string? includeProperties = null) 
+        public List<NotesProduct> GetAllNotes()
         {
-            var query = _context.NotesProducts.AsQueryable();
-
-            if (!string.IsNullOrEmpty(includeProperties))
-            {
-                foreach (var include in includeProperties.Split(','))
-                {
-                    query = query.Include(include.Trim());
-                }
-            }
-
-            return query.ToList();
+            return _context.NotesProducts
+           .Include(np => np.Category) 
+           .ToList();
         }
 
         public NotesProduct? GetForDetails(long? id, string? includeProperties = null)

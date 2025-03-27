@@ -10,7 +10,7 @@ namespace Notes.Data.Repository.IRepository
 {
     public interface IHomeRepository : IBaseRepository<NotesProduct>
     {
-        List<NotesProduct> GetAllNotes(string? includeProperties = null);
+        List<NotesProduct> GetAllNotes();
 
         NotesProduct? GetForDetails(long? id, string? includeProperties = null);
 

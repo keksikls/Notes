@@ -35,7 +35,7 @@ namespace Notes.Web.Areas.Admin.Controllers
         public IActionResult Details([FromQuery(Name = "productId")] long id)
         {
             _logger.LogInformation("Method DeteilsGet / getForId start");
-            NotesProduct notesProduct = _unitOfWork.homeRepository.GetForDetails(id);
+            NotesProduct notesProduct = _unitOfWork.homePage.GetForDetails(id);
 
             return View(notesProduct);
         }
